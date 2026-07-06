@@ -6,11 +6,10 @@ import 'package:supabase_flutter/supabase_flutter.dart' hide AuthException;
 
 AppException handleException(Object e) {
   /// Supabase Auth
-  if (e is AuthException) {
+  if (e is AuthApiException) {
     return AuthException(e.message);
   }
 
-  // /// Database / Postgrest
   if (e is PostgrestException) {
     return ServerException(e.message);
   }
