@@ -4,7 +4,6 @@ enum TicketCategory { itSupport, hr, finance, facilities, general }
 
 enum TicketPriority { low, medium, high }
 
-
 class TicketModel {
   final String id;
   final String title;
@@ -16,9 +15,10 @@ class TicketModel {
   final String? assignedTo;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  final String? attachments;
+  final String? attachmentUrl;
 
   TicketModel({
+    this.attachmentUrl,
     required this.id,
     required this.title,
     required this.description,
@@ -29,7 +29,6 @@ class TicketModel {
     this.assignedTo,
     required this.createdAt,
     this.updatedAt,
-    this.attachments,
   });
 
   Map<String, dynamic> toJson() {
@@ -41,7 +40,7 @@ class TicketModel {
       'category': category.name,
       'created_by': createdBy,
       'assigned_to': assignedTo,
-      'attachments': attachments,
+      'attachmentUrl': attachmentUrl,
     };
   }
 
@@ -59,7 +58,7 @@ class TicketModel {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
           : null,
-      attachments: json['attachments']
+      attachmentUrl: json['attachmentUrl'],
     );
   }
 }

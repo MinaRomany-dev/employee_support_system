@@ -1,4 +1,5 @@
 import 'package:employee_support_system/features/auth/data/models/user_model.dart';
+import 'package:employee_support_system/features/employees/data/models/ticket_model.dart';
 
 class Validators {
   static String? email(String? value) {
@@ -66,6 +67,28 @@ class Validators {
   static String? role(UserRole? value) {
     if (value == null) {
       return "Role is required";
+    }
+    return null;
+  }
+    static String? ticketcategory(TicketCategory? value) {
+    if (value == null) {
+      return "Category is required";
+    }
+    return null;
+  }  static String? ticketpriority(TicketPriority? value) {
+    if (value == null) {
+      return "Priority is required";
+    }
+    return null;
+  }  static String? ticketstatus(TicketStatus? value) {
+    if (value == null) {
+      return "Status is required";
+    }
+    return null;
+  }
+    static String? tickettitle(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Title is required";
     }
     return null;
   }

@@ -14,8 +14,10 @@ final class LoginLoading extends AuthState {
 }
 
 final class LoginSuccess extends AuthState {
+  final UserEntity user;
+  LoginSuccess(this.user);
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [user];
 }
 
 final class LoginFailure extends AuthState {
@@ -47,4 +49,17 @@ final class RegisterFailure extends AuthState {
 final class LogoutSuccess extends AuthState {
   @override
   List<Object?> get props => [];
+}
+
+final class SignInWithGoogleSuccess extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+final class SignInWithGoogleFailure extends AuthState {
+  final String message;
+  SignInWithGoogleFailure(this.message);
+
+  @override
+  List<Object?> get props => [message];
 }

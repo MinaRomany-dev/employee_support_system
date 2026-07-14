@@ -15,12 +15,12 @@ AppException handleException(Object e) {
   }
 
   if (e is SocketException) {
-    return const NetworkException("No internet connection");
+    return NetworkException(e.message);
   }
 
   /// Timeout
   if (e is TimeoutException) {
-    return const NetworkException("Connection timeout");
+    return NetworkException(e.message ?? "Request timed out");
   }
 
   return const UnknownException("Something went wrong");

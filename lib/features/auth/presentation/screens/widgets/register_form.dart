@@ -1,3 +1,4 @@
+import 'package:employee_support_system/core/routes/routes.dart';
 import 'package:employee_support_system/core/theme/color_manager.dart';
 import 'package:employee_support_system/core/utils/toast.dart';
 import 'package:employee_support_system/core/validator/validator.dart';
@@ -37,6 +38,7 @@ class _RegisterFormState extends State<RegisterForm> {
             type: ToastificationType.success,
             title: "Account created successfully",
           );
+          Navigator.of(context).pushNamed(Routes.login);
         }
 
         if (state is RegisterFailure) {

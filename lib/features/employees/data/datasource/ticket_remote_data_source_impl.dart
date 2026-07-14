@@ -1,0 +1,44 @@
+import 'dart:io';
+
+import 'package:employee_support_system/features/employees/data/datasource/ticket_remote_datasource.dart';
+import 'package:employee_support_system/features/employees/data/models/ticket_model.dart';
+import 'package:injectable/injectable.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
+@LazySingleton(as: TicketRemoteDatasource)
+class TicketRemoteDataSourceImpl implements TicketRemoteDatasource {
+  final SupabaseClient client;
+  const TicketRemoteDataSourceImpl(this.client);
+
+  @override
+  Future<void> allTickets() {
+    // TODO: implement allTickets
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> createTicket(TicketModel ticket, File? image) async {
+    try {
+      String? attachmentUrl;
+      if (image != null) {
+        final time = DateTime.now().microsecondsSinceEpoch.toString();
+        final uniquepath = "${time}_${image.path.split('/').last}";
+        await client.storage.from('attachments').upload(uniquepath, image);
+        attachmentUrl =  client.storage
+            .from('attachments')
+            .getPublicUrl(uniquepath);
+      }
+      final json = ticket.toJson();
+      if (attachmentUrl != null) json['attachmentUrl'] = attachmentUrl;
+      await client.from('tickets').insert(json);
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Future<void> getuserTickets(String id) {
+    // TODO: implement getuserTickets
+    throw UnimplementedError();
+  }
+}

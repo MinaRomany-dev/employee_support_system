@@ -1,5 +1,7 @@
+import 'package:employee_support_system/features/auth/data/models/user_model.dart';
+
 abstract class AuthDatasource {
-  Future<void> login(String email, String password);
+  Future<UserModel> login(String email, String password);
   Future<void> register(
     String name,
     String role,
@@ -7,4 +9,5 @@ abstract class AuthDatasource {
     String password,
   );
   Future<void> logout();
+  Future<void> signInWithGoogle();
 }

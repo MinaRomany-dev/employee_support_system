@@ -4,11 +4,11 @@ import 'package:employee_support_system/features/auth/domain/repo/auth_repo.dart
 import 'package:injectable/injectable.dart';
 
 @singleton
-class LogoutUsecase {
+class SignInWithgoogle {
   final AuthRepo authRepo;
-  LogoutUsecase(this.authRepo);
+  SignInWithgoogle(this.authRepo);
 
   Future<Either<AppFailure, void>> call() async {
-    return await authRepo.logout();
+    return await authRepo.signInWithGoogle();
   }
 }

@@ -1,6 +1,8 @@
+import 'package:employee_support_system/core/routes/routes.dart';
 import 'package:employee_support_system/core/theme/color_manager.dart';
 import 'package:employee_support_system/core/utils/toast.dart';
 import 'package:employee_support_system/core/validator/validator.dart';
+import 'package:employee_support_system/features/auth/data/models/user_model.dart';
 import 'package:employee_support_system/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:employee_support_system/features/auth/presentation/screens/register.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +20,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-
+  late UserRole role;
   final _formKey = GlobalKey<FormState>();
 
   bool obscure = true;
@@ -47,13 +49,17 @@ class _LoginScreenState extends State<LoginScreen> {
                     description: "You have been logged in successfully!",
                     type: ToastificationType.success,
                   );
-                  Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const RegisterScreen(),
-                    ),
-                    (route) => false,
-                  );
+                  switch (state.user.role) {
+                    case "manager":
+                      Navigator.of(context).pushNamed(Routes.manager);
+                      break;
+                    case "employee":
+                      Navigator.of(context).pushNamed(Routes.home);
+                      break;
+                    case "support":
+                      Navigator.of(context).pushNamed(Routes.support);
+                      break;
+                  }
                 }
               },
               builder: (context, state) {
@@ -68,7 +74,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         key: _formKey,
                         child: Column(
                           children: [
-                            SizedBox(height: 40.h),
+                            SizedBox(height: heightscreen * 0.02),
 
                             CircleAvatar(
                               radius: 42.r,
@@ -91,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            SizedBox(height: 8.h),
+                            SizedBox(height: heightscreen * 0.01),
 
                             Text(
                               "Sign in to continue",
@@ -101,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            SizedBox(height: 40.h),
+                            SizedBox(height: heightscreen * 0.02),
 
                             Align(
                               alignment: Alignment.centerLeft,
@@ -114,8 +120,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            SizedBox(height: heightscreen * 0.01),
-
+                            // SizedBox(height: heightscreen * 0.01),
                             TextFormField(
                               validator: Validators.email,
                               controller: emailController,
@@ -126,7 +131,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            SizedBox(height: heightscreen * 0.03),
+                            SizedBox(height: heightscreen * 0.02),
 
                             Align(
                               alignment: Alignment.centerLeft,
@@ -139,7 +144,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
 
-                            SizedBox(height: heightscreen * 0.001),
+                            SizedBox(height: heightscreen * 0.01),
 
                             TextFormField(
                               validator: Validators.password,
@@ -165,7 +170,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                             ),
 
-                            SizedBox(height: heightscreen * 0.02),
+                            SizedBox(height: heightscreen * 0.01),
 
                             Align(
                               alignment: Alignment.centerRight,
@@ -213,41 +218,95 @@ class _LoginScreenState extends State<LoginScreen> {
                                   ),
                                 ),
                               ),
-                            ), 
+                            ),
 
-                            const Spacer(),
-                            Padding(
-                              padding: EdgeInsets.only(bottom: 25.h),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Text(
-                                    "Don't have an account?",
+                            SizedBox(height: heightscreen * 0.02),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't have an account?",
+                                  style: TextStyle(
+                                    color: ColorManager.textSecondary,
+                                    fontSize: 14.sp,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => const RegisterScreen(),
+                                      ),
+                                    );
+                                  },
+                                  child: Text(
+                                    "Register",
                                     style: TextStyle(
-                                      color: ColorManager.textSecondary,
+                                      color: ColorManager.primary,
+                                      fontWeight: FontWeight.bold,
                                       fontSize: 14.sp,
                                     ),
                                   ),
-                                  TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (_) =>
-                                              const RegisterScreen(),
-                                        ),
-                                      );
-                                    },
-                                    child: Text(
-                                      "Register",
-                                      style: TextStyle(
-                                        color: ColorManager.primary,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 14.sp,
-                                      ),
+                                ),
+                              ],
+                            ),
+
+                            // SizedBox(height: heightscreen * 0.01),
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Divider(color: Colors.grey.shade300),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: 12.w,
+                                  ),
+                                  child: Text(
+                                    "OR",
+                                    style: TextStyle(
+                                      color: ColorManager.textSecondary,
+                                      fontWeight: FontWeight.w600,
                                     ),
                                   ),
-                                ],
+                                ),
+                                Expanded(
+                                  child: Divider(color: Colors.grey.shade300),
+                                ),
+                              ],
+                            ),
+
+                            //  SizedBox(height: heightscreen * 0.01),
+                            SizedBox(
+                              width: double.infinity,
+                              height: 55.h,
+                              child: OutlinedButton.icon(
+                                style: OutlinedButton.styleFrom(
+                                  backgroundColor: Colors.white,
+                                  side: BorderSide(color: ColorManager.border),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14.r),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  /// 8000
+                                  context.read<AuthBloc>().add(
+                                    GoogleSignInEvent(),
+                                  );
+                                },
+                                // icon: Image.asset(
+                                //   "assets/images/google.png",
+                                //   width: 22.w,
+                                //   height: 22.h,
+                                // ),
+                                label: Text(
+                                  "Continue with Google",
+                                  style: TextStyle(
+                                    color: Colors.black87,
+                                    fontSize: 15.sp,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
                               ),
                             ),
                           ],
