@@ -38,6 +38,8 @@ import 'package:employee_support_system/features/employees/domain/repo/tickets_r
     as _i77;
 import 'package:employee_support_system/features/employees/domain/usecases/create_ticket_usecase.dart'
     as _i695;
+import 'package:employee_support_system/features/employees/domain/usecases/get_user_tickets_usecase.dart'
+    as _i578;
 import 'package:employee_support_system/features/employees/presentation/bloc/ticket_bloc.dart'
     as _i1027;
 import 'package:get_it/get_it.dart' as _i174;
@@ -77,6 +79,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i315.SignInWithgoogle>(
       () => _i315.SignInWithgoogle(gh<_i885.AuthRepo>()),
     );
+    gh.lazySingleton<_i578.GetUserTicketsUsecase>(
+      () => _i578.GetUserTicketsUsecase(gh<_i77.TicketRepository>()),
+    );
     gh.singleton<_i695.CreateTicketUseCase>(
       () => _i695.CreateTicketUseCase(gh<_i77.TicketRepository>()),
     );
@@ -89,7 +94,10 @@ extension GetItInjectableX on _i174.GetIt {
       ),
     );
     gh.factory<_i1027.TicketBloc>(
-      () => _i1027.TicketBloc(gh<_i695.CreateTicketUseCase>()),
+      () => _i1027.TicketBloc(
+        gh<_i695.CreateTicketUseCase>(),
+        gh<_i578.GetUserTicketsUsecase>(),
+      ),
     );
     return this;
   }

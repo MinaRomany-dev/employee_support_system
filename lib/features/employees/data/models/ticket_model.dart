@@ -46,7 +46,7 @@ class TicketModel {
 
   factory TicketModel.fromJson(Map<String, dynamic> json) {
     return TicketModel(
-      id: json['id'],
+      id: json['ticketId'],
       title: json['title'],
       description: json['description'],
       status: TicketStatus.values.byName(json['status']),

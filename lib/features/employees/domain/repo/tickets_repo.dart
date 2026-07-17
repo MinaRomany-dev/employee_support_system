@@ -9,6 +9,7 @@ abstract class TicketRepository {
     TicketEntity ticket,
     File? image,
   );
-  // Future<Either<AppFailure, List<TicketEntity>>> getUserTickets(String userId);
-  // Future<Either<AppFailure, List<TicketEntity>>> getAllTickets();
+  Future<Either<AppFailure, List<TicketEntity>>> getUserTickets(
+    String userId,
+  ); // Future<Either<AppFailure, List<TicketEntity>>> getAllTickets();
 }

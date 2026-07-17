@@ -15,7 +15,7 @@ class CustomTextField extends StatelessWidget {
   final TextStyle? style;
 
   const CustomTextField({
-  this.style,
+    this.style,
     super.key,
     required this.controller,
     required this.label,
@@ -56,6 +56,10 @@ class CustomTextField extends StatelessWidget {
               borderRadius: BorderRadius.circular(14.r),
             ),
             focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: ColorManager.border),
+              borderRadius: BorderRadius.circular(14.r),
+            ),
+            border: OutlineInputBorder(
               borderSide: BorderSide(color: ColorManager.border),
               borderRadius: BorderRadius.circular(14.r),
             ),

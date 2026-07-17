@@ -13,7 +13,9 @@ AppException handleException(Object e) {
   if (e is PostgrestException) {
     return ServerException(e.message);
   }
-
+  if (e is StorageException) {
+    return ServerException(e.message);
+  }
   if (e is SocketException) {
     return NetworkException(e.message);
   }

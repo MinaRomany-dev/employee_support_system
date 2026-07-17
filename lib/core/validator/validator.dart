@@ -12,7 +12,7 @@ class Validators {
     if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email";
     }
-
+// 
     return null;
   }
 
@@ -32,7 +32,6 @@ class Validators {
     if (value == null || value.isEmpty) {
       return "Username is required";
     }
-
     if (value.length < 4) {
       return "Too short";
     }
@@ -70,25 +69,38 @@ class Validators {
     }
     return null;
   }
-    static String? ticketcategory(TicketCategory? value) {
+
+  static String? ticketcategory(TicketCategory? value) {
     if (value == null) {
       return "Category is required";
     }
     return null;
-  }  static String? ticketpriority(TicketPriority? value) {
+  }
+
+  static String? ticketpriority(TicketPriority? value) {
     if (value == null) {
       return "Priority is required";
     }
     return null;
-  }  static String? ticketstatus(TicketStatus? value) {
+  }
+
+  static String? ticketstatus(TicketStatus? value) {
     if (value == null) {
       return "Status is required";
     }
     return null;
   }
-    static String? tickettitle(String? value) {
+
+  static String? tickettitle(String? value) {
     if (value == null || value.trim().isEmpty) {
       return "Title is required";
+    }
+    return null;
+  }
+
+  static String? ticketdescription(String? value) {
+    if (value == null || value.trim().isEmpty) {
+      return "Description is required";
     }
     return null;
   }

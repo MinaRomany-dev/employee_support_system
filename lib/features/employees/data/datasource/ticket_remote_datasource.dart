@@ -3,6 +3,6 @@ import 'package:employee_support_system/features/employees/data/models/ticket_mo
 
 abstract class TicketRemoteDatasource {
   Future<void> createTicket(TicketModel ticket , File? image) ;
-  Future<void> getuserTickets(String id);
+Future<List<TicketModel>> getuserTickets(String userId) ;
   Future<void> allTickets();
 }

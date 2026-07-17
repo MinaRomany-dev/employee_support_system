@@ -14,7 +14,7 @@ import 'package:injectable/injectable.dart';
 class TicketRepositoryImpl implements TicketRepository {
   final TicketRemoteDatasource datasource;
   const TicketRepositoryImpl(this.datasource);
-@override
+  @override
   Future<Either<AppFailure, void>> createTicket(
     TicketEntity ticket,
     File? image,
@@ -22,6 +22,18 @@ class TicketRepositoryImpl implements TicketRepository {
     try {
       await datasource.createTicket(ticket.toModel(), image);
       return Right(null);
+    } on AppException catch (e) {
+      return Left(mapExceptionToFailure(e));
+    }
+  }
+
+  @override
+  Future<Either<AppFailure, List<TicketEntity>>> getUserTickets(
+    String userId,
+  ) async {
+    try {
+      final list = await datasource.getuserTickets(userId);
+      return Right(list.map((models) => models.toEntity()).toList());
     } on AppException catch (e) {
       return Left(mapExceptionToFailure(e));
     }

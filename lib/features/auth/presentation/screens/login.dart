@@ -4,7 +4,6 @@ import 'package:employee_support_system/core/utils/toast.dart';
 import 'package:employee_support_system/core/validator/validator.dart';
 import 'package:employee_support_system/features/auth/data/models/user_model.dart';
 import 'package:employee_support_system/features/auth/presentation/bloc/auth_bloc.dart';
-import 'package:employee_support_system/features/auth/presentation/screens/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -51,13 +50,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   );
                   switch (state.user.role) {
                     case "manager":
-                      Navigator.of(context).pushNamed(Routes.manager);
+                      Navigator.of(
+                        context,
+                      ).pushReplacementNamed(Routes.manager);
                       break;
                     case "employee":
-                      Navigator.of(context).pushNamed(Routes.home);
+                      Navigator.of(context).pushReplacementNamed(Routes.home);
                       break;
                     case "support":
-                      Navigator.of(context).pushNamed(Routes.support);
+                      Navigator.of(
+                        context,
+                      ).pushReplacementNamed(Routes.support);
                       break;
                   }
                 }
@@ -233,12 +236,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 ),
                                 TextButton(
                                   onPressed: () {
-                                    Navigator.push(
+                                    Navigator.of(
                                       context,
-                                      MaterialPageRoute(
-                                        builder: (_) => const RegisterScreen(),
-                                      ),
-                                    );
+                                    ).pushReplacementNamed(Routes.register);
                                   },
                                   child: Text(
                                     "Register",

@@ -14,3 +14,10 @@ class CreateTicketEvent extends TicketEvent {
   @override
   List<Object> get props => [ticket.id];
 }
+
+class LoadUserTicketsEvent extends TicketEvent {
+  final String userId;
+  const LoadUserTicketsEvent({required this.userId});
+  @override
+  List<Object> get props => [userId];
+}
