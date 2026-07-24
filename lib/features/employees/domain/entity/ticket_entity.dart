@@ -5,6 +5,8 @@ class TicketEntity {
   final String title;
   final String description;
   final String? image;
+  final String? createdByName; // ← ضيف
+  final String? assignedToName;
   final TicketCategory category;
   final TicketPriority priority;
   final String createdBy;
@@ -14,6 +16,8 @@ class TicketEntity {
   final DateTime? updatedAt;
 
   TicketEntity({
+    this.createdByName,
+    this.assignedToName,
     required this.id,
     required this.title,
     required this.description,

@@ -9,7 +9,7 @@ AppException handleException(Object e) {
   if (e is AuthApiException) {
     return AuthException(e.message);
   }
-
+ 
   if (e is PostgrestException) {
     return ServerException(e.message);
   }

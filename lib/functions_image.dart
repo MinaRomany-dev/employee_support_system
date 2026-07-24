@@ -1,9 +1,10 @@
 import 'dart:io';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-class ImagesFunctions {
+class Functions {
   static Future<File?> cameraPicker() async {
     var image = await ImagePicker().pickImage(source: ImageSource.camera);
     if (image != null) {
@@ -31,5 +32,9 @@ class ImagesFunctions {
       }
     }
     return null;
+  }
+
+ static String formatDate(DateTime date) {
+    return DateFormat('MMM dd, yyyy · hh:mm a').format(date);
   }
 }

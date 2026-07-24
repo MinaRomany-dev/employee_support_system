@@ -17,7 +17,7 @@ class _SplashScreenState extends State<SplashScreen>
   late final Animation<double> _scaleAnimation;
   late final Animation<double> _fadeAnimation;
 
-  @override 
+  @override
   void initState() {
     super.initState();
 
@@ -38,9 +38,13 @@ class _SplashScreenState extends State<SplashScreen>
     Timer(const Duration(seconds: 3), () {
       final SupabaseClient client = Supabase.instance.client;
       if (client.auth.currentSession == null) {
-        Navigator.of(context).pushNamed(Routes.login);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil(Routes.login, (route) => false);
       } else {
-        Navigator.of(context).pushNamed(Routes.home);
+        Navigator.of(
+          context,
+        ).pushNamedAndRemoveUntil(Routes.home, (route) => false);
       }
     });
   }

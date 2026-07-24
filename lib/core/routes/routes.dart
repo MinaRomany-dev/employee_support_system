@@ -5,5 +5,7 @@ class Routes{
   static const String manager = '/manager';
   static const String support = '/support';
   static const String ticketscreen = '/ticketscreen';
-  static const String SplashScreen = '/SplashScreen';
+  static const String splashScreen = '/SplashScreen';
+  static const String ticketDetailsScreen = '/ticketDetailsScreen';
+
 }

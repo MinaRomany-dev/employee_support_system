@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:employee_support_system/core/resources/styles_manager.dart';
 import 'package:employee_support_system/core/theme/color_manager.dart';
-import 'package:employee_support_system/functions.dart';
+import 'package:employee_support_system/functions_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -83,7 +83,7 @@ class _AttachmentsSectionState extends State<AttachmentsSection> {
                               title: const Text("Camera"),
                               onTap: () async {
                                 final selectedImage =
-                                    await ImagesFunctions.cameraPicker();
+                                    await Functions.cameraPicker();
                                 if (selectedImage != null) {
                                   widget.ontap!(selectedImage);
                                   Navigator.of(context).pop();
@@ -95,7 +95,7 @@ class _AttachmentsSectionState extends State<AttachmentsSection> {
                               title: const Text("Gallery"),
                               onTap: () async {
                                 final selectedImage =
-                                    await ImagesFunctions.galleryPicker();
+                                    await Functions.galleryPicker();
                                 if (selectedImage != null) {
                                   widget.ontap!(selectedImage);
                                   Navigator.of(context).pop();

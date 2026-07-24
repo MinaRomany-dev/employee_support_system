@@ -41,7 +41,7 @@ class HelpDesk extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           onGenerateRoute: generateRoute,
-          initialRoute: Routes.SplashScreen,
+          initialRoute: Routes.splashScreen,
         ),
       ),
     );

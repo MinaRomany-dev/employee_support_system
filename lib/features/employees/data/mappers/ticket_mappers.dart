@@ -9,6 +9,8 @@ extension TicketMapper on TicketModel {
     image: attachmentUrl,
     status: status,
     priority: priority,
+    assignedToName: assignedToName,
+    createdByName: createdByName,
     category: category,
     createdAt: createdAt,
     updatedAt: updatedAt,

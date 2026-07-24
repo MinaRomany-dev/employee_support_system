@@ -15,12 +15,10 @@ class HelpDeskScreen extends StatefulWidget {
   @override
   State<HelpDeskScreen> createState() => _HelpDeskScreenState();
 }
-
 class _HelpDeskScreenState extends State<HelpDeskScreen> {
   @override
   void initState() {
     super.initState();
-    // بيتعمل مرة واحدة لما الشاشة تفتح
     context.read<TicketBloc>().add(
       LoadUserTicketsEvent(
         userId: Supabase.instance.client.auth.currentUser!.id,
@@ -32,21 +30,48 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    // لما الشاشة تفتح، جيب الـ tickets تلقائي
+    
 
     return Scaffold(
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: ColorManager.primary),
+            onPressed: () async {
+              await Supabase.instance.client.auth.signOut();
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                Routes.login,
+                (route) => false,
+              );
+            },
+          ),
+        ],
+        toolbarHeight: height * 0.1,
+        backgroundColor: ColorManager.surface,
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'HelpDesk',
+              style: TextStyle(
+                fontSize: 23.sp,
+                fontWeight: FontWeight.w700,
+                color: Color(0xFF0B1A33),
+              ),
+            ),
+            Text(
+              'Welcome, ${Supabase.instance.client.auth.currentUser?.userMetadata?["name"] ?? ""}',
+              style: TextStyle(fontSize: 18.sp, color: Color(0xFF60738E)),
+            ),
+          ],
+        ),
+      ),
+
       backgroundColor: const Color(0xFFF4F6FA),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          await Navigator.pushNamed(context, Routes.ticketscreen);
-
-          if (mounted) {
-            context.read<TicketBloc>().add(
-              LoadUserTicketsEvent(
-                userId: Supabase.instance.client.auth.currentUser!.id,
-              ),
-            );
-          }
+          Navigator.pushNamed(context, Routes.ticketscreen);
         },
         backgroundColor: const Color(0xFF2A6DF4),
         icon: const Icon(Icons.add, color: Colors.white),
@@ -68,14 +93,10 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.error_outline,
-                      size: 48,
-                      color: Colors.red,
-                    ),
-                    const SizedBox(height: 12),
+                    Icon(Icons.error_outline, size: 48.sp, color: Colors.red),
+                    SizedBox(height: height * 0.015),
                     Text(state.message),
-                    const SizedBox(height: 12),
+                    SizedBox(height: height * 0.015),
                     ElevatedButton(
                       onPressed: () => context.read<TicketBloc>().add(
                         LoadUserTicketsEvent(
@@ -95,58 +116,13 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                 : <TicketEntity>[];
 
             return SingleChildScrollView(
-              padding: const EdgeInsets.all(20.0),
+              padding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 15.h),
               child: Center(
                 child: Container(
                   constraints: const BoxConstraints(maxWidth: 700),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Header
-                      Row(
-                        children: [
-                          Expanded(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  'HelpDesk Lite',
-                                  style: TextStyle(
-                                    fontSize: 27.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xFF0B1A33),
-                                  ),
-                                ),
-                                SizedBox(height: height * 0.01),
-                                Text(
-                                  'Welcome, ${Supabase.instance.client.auth.currentUser?.userMetadata?["name"] ?? ""}',
-                                  style: TextStyle(
-                                    fontSize: 20.sp,
-                                    color: Color(0xFF60738E),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            width: width * .1,
-                            height: height * .1,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: const Color(0xFF2A6DF4),
-                              ),
-                            ),
-                            child: const Icon(
-                              Icons.person_outline,
-                              color: Color(0xFF2A6DF4),
-                            ),
-                          ),
-                        ],
-                      ),
-
-                      const SizedBox(height: 28),
-
                       // Stats — من الـ tickets الحقيقية
                       GridView.count(
                         crossAxisCount: 2,
@@ -154,7 +130,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         physics: const NeverScrollableScrollPhysics(),
                         crossAxisSpacing: 12.w,
                         mainAxisSpacing: 16.h,
-                        childAspectRatio: 1.7.sp,
+                        childAspectRatio: 1.7,
                         children: [
                           _buildStatCard(
                             icon: Icons.assignment_outlined,
@@ -198,35 +174,35 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                         ],
                       ),
 
-                      const SizedBox(height: 28),
+                      SizedBox(height: height * 0.035),
 
-                      const Text(
+                      Text(
                         'My Ticket History',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 20.sp,
                           fontWeight: FontWeight.w700,
                           color: Color(0xFF0B1A33),
                         ),
                       ),
 
-                      const SizedBox(height: 16),
+                      SizedBox(height: height * 0.02),
 
                       // Empty state
                       if (tickets.isEmpty)
                         Center(
                           child: Column(
-                            children: const [
-                              SizedBox(height: 40),
+                            children: [
+                              SizedBox(height: height * 0.05),
                               Icon(
                                 Icons.inbox_outlined,
-                                size: 64,
+                                size: 64.sp,
                                 color: Color(0xFF60738E),
                               ),
-                              SizedBox(height: 12),
+                              SizedBox(height: height * 0.015),
                               Text(
                                 'No tickets yet',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 16.sp,
                                   color: Color(0xFF60738E),
                                 ),
                               ),
@@ -240,7 +216,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
                           itemCount: tickets.length,
                           itemBuilder: (context, index) {
                             return Padding(
-                              padding: const EdgeInsets.only(bottom: 16),
+                              padding: EdgeInsets.only(bottom: 16.h),
                               child: _buildTicketCard(tickets[index], context),
                             );
                           },
@@ -257,14 +233,19 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
   }
 
   Widget _buildTicketCard(TicketEntity ticket, BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
     return GestureDetector(
-      onTap: () =>
-          Navigator.pushNamed(context, Routes.login, arguments: ticket),
+      onTap: () => Navigator.pushNamed(
+        context,
+        Routes.ticketDetailsScreen,
+        arguments: ticket,
+      ),
       child: Container(
-        padding: const EdgeInsets.all(18),
+        width: double.infinity,
+        padding: EdgeInsets.all(18.sp),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(20.r),
           border: Border.all(color: const Color(0xFFEEF2F7)),
         ),
         child: Column(
@@ -272,8 +253,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
           children: [
             // Badges
             Wrap(
-              spacing: 8,
-              runSpacing: 6,
+              spacing: 20.w,
+              runSpacing: 6.h,
               children: [
                 _buildBadge(
                   label: ticket.category.name,
@@ -285,33 +266,33 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
               ],
             ),
 
-            const SizedBox(height: 12),
+            SizedBox(height: height * 0.015),
 
             Text(
               ticket.title,
-              style: const TextStyle(
-                fontSize: 17,
+              style: TextStyle(
+                fontSize: 17.sp,
                 fontWeight: FontWeight.w700,
                 color: Color(0xFF0B1A33),
               ),
             ),
 
-            const SizedBox(height: 8),
+            SizedBox(height: height * 0.01),
 
             Text(
               ticket.description,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                fontSize: 14.5,
+              style: TextStyle(
+                fontSize: 14.5.sp,
                 height: 1.5,
                 color: Color(0xFF60738E),
               ),
             ),
 
-            const SizedBox(height: 14),
+            SizedBox(height: height * 0.017),
             const Divider(height: 1, color: Color(0xFFEEF2F7)),
-            const SizedBox(height: 12),
+            SizedBox(height: height * 0.015),
 
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -333,7 +314,7 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     );
   }
 
-  // ── Helpers ────────────────────────────────
+// Widgets
   String _formatDate(DateTime date) {
     return DateFormat('MMM dd, yyyy · hh:mm a').format(date);
   }
@@ -368,15 +349,15 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     required Color textColor,
   }) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 5.h),
       decoration: BoxDecoration(
         color: bgColor,
-        borderRadius: BorderRadius.circular(40),
+        borderRadius: BorderRadius.circular(40.r),
       ),
       child: Text(
         label,
         style: TextStyle(
-          fontSize: 12.5,
+          fontSize: 12.5.sp,
           fontWeight: FontWeight.w600,
           color: textColor,
         ),
@@ -391,6 +372,8 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     required String value,
     required String label,
   }) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Container(
       padding: EdgeInsets.all(16.sp),
       decoration: BoxDecoration(
@@ -401,30 +384,30 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
       child: Row(
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * .1,
-            height: 44,
+            width: width * .1,
+            height: height * 0.06,
             decoration: BoxDecoration(
               color: iconBgColor,
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, color: iconColor, size: 22),
+            child: Icon(icon, color: iconColor, size: 22.sp),
           ),
-          const SizedBox(width: 12),
+          SizedBox(width: width * 0.03),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 value,
-                style: const TextStyle(
-                  fontSize: 22,
+                style: TextStyle(
+                  fontSize: 22.sp,
                   fontWeight: FontWeight.w700,
                   color: Color(0xFF0B1A33),
                 ),
               ),
               Text(
                 label,
-                style: const TextStyle(fontSize: 13, color: Color(0xFF60738E)),
+                style: TextStyle(fontSize: 13.sp, color: Color(0xFF60738E)),
               ),
             ],
           ),
@@ -437,11 +420,11 @@ class _HelpDeskScreenState extends State<HelpDeskScreen> {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, color: const Color(0xFF60738E), size: 15),
-        const SizedBox(width: 6),
+        Icon(icon, color: const Color(0xFF60738E), size: 15.sp),
+        SizedBox(width: MediaQuery.of(context).size.width * 0.015),
         Text(
           text,
-          style: const TextStyle(fontSize: 13.5, color: Color(0xFF3D5670)),
+          style: TextStyle(fontSize: 13.5.sp, color: Color(0xFF3D5670)),
         ),
       ],
     );

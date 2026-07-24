@@ -42,15 +42,16 @@ class TicketRemoteDataSourceImpl implements TicketRemoteDatasource {
     try {
       final data = await client
           .from('tickets')
-          .select()
+          .select('''
+      *,
+      creator:users!created_by(name),
+      assignee:users!assigned_to(name)
+    ''')
           .eq('created_by', userId)
           .order('created_at', ascending: false);
 
       return data.map((m) => TicketModel.fromJson(m)).toList();
-    } catch (e,stack) {
-      print(e);
-      print('-------------------------------');
-      print(stack);
+    } catch (e) {
       throw handleException(e);
     }
   }
