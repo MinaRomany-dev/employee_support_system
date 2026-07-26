@@ -1,7 +1,9 @@
 part of 'auth_bloc.dart';
 
 @immutable
-sealed class AuthState extends Equatable {}
+sealed class AuthState extends Equatable {
+  const AuthState();
+}
 
 final class AuthInitial extends AuthState {
   @override
@@ -22,7 +24,7 @@ final class LoginSuccess extends AuthState {
 
 final class LoginFailure extends AuthState {
   final String message;
-  LoginFailure(this.message);
+  const LoginFailure(this.message);
 
   @override
   List<Object?> get props => [message];
@@ -40,7 +42,7 @@ final class RegisterSuccess extends AuthState {
 
 final class RegisterFailure extends AuthState {
   final String message;
-  RegisterFailure(this.message);
+ const RegisterFailure(this.message);
 
   @override
   List<Object?> get props => [message];
@@ -63,3 +65,4 @@ final class SignInWithGoogleFailure extends AuthState {
   @override
   List<Object?> get props => [message];
 }
+

@@ -12,7 +12,6 @@ class Validators {
     if (!emailRegex.hasMatch(value)) {
       return "Enter a valid email";
     }
-// 
     return null;
   }
 

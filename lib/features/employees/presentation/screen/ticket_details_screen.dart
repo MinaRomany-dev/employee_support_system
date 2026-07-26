@@ -257,15 +257,6 @@ class _TicketDetailsScreenState extends State<TicketDetailsScreen> {
                             ),
                           ),
                         ),
-
-                        //      SizedBox(height: height * 0.02),
-
-                        // ── Comments Section ─────────────────────
-                        //  buildSectionTitle('Comments & Collaboration'),
-                        // SizedBox(height: 8.h),
-
-                        // // TicketChatScreen(),
-                        // SizedBox(height: height * 0.1),
                       ],
                     ),
                   ),

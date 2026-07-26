@@ -28,7 +28,6 @@ class SupabaseAuth implements AuthDatasource {
           .select()
           .eq('id', user.id)
           .single();
-
       return UserModel.fromJson(data);
     } catch (e) {
       throw handleException(e);
@@ -36,24 +35,33 @@ class SupabaseAuth implements AuthDatasource {
   }
 
   @override
-  Future<void> register(
+  Future<UserModel> register(
     String name,
     String role,
     String email,
     String password,
   ) async {
     try {
-      final user = await client.auth.signUp(
+      final credintial = await client.auth.signUp(
         data: {'name': name, 'role': role},
         email: email,
         password: password,
       );
       await client.from("users").insert({
-        "id": user.user!.id,
+        "id": credintial.user!.id,
         "name": name,
         "email": email,
         "role": role,
       });
+
+      final data = UserModel(
+        id: credintial.user!.id,
+        email: email,
+        name: name,
+        role: UserRole.values.byName(role),
+        profileImageUrl: "",
+      );
+      return data;
     } catch (e) {
       throw handleException(e);
     }

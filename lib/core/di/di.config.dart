@@ -12,12 +12,18 @@
 import 'package:employee_support_system/core/di/register_module.dart' as _i93;
 import 'package:employee_support_system/features/auth/data/datasource/auth_datasource.dart'
     as _i1018;
+import 'package:employee_support_system/features/auth/data/datasource/auth_loca_datasource.dart'
+    as _i704;
+import 'package:employee_support_system/features/auth/data/datasource/auth_local_datasource_impl.dart'
+    as _i1008;
 import 'package:employee_support_system/features/auth/data/datasource/supabase_auth.dart'
     as _i897;
 import 'package:employee_support_system/features/auth/data/repositories/auth_repository_impl.dart'
     as _i16;
 import 'package:employee_support_system/features/auth/domain/repo/auth_repo.dart'
     as _i885;
+import 'package:employee_support_system/features/auth/domain/use_cases/get_user_usecase.dart'
+    as _i231;
 import 'package:employee_support_system/features/auth/domain/use_cases/login_usecase.dart'
     as _i150;
 import 'package:employee_support_system/features/auth/domain/use_cases/logout_usecase.dart'
@@ -56,6 +62,8 @@ import 'package:employee_support_system/features/employees/domain/usecases/get_u
     as _i578;
 import 'package:employee_support_system/features/employees/presentation/bloc/ticket_bloc.dart'
     as _i1027;
+import 'package:employee_support_system/features/splash/cubit/splash_cubit.dart'
+    as _i847;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:supabase_flutter/supabase_flutter.dart' as _i454;
@@ -69,6 +77,9 @@ extension GetItInjectableX on _i174.GetIt {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
     gh.lazySingleton<_i454.SupabaseClient>(() => registerModule.client);
+    gh.lazySingleton<_i704.AuthLocalDatasource>(
+      () => _i1008.AuthLocalDatasourceimpl(),
+    );
     gh.lazySingleton<_i887.TicketRemoteDatasource>(
       () => _i826.TicketRemoteDataSourceImpl(gh<_i454.SupabaseClient>()),
     );
@@ -85,13 +96,19 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i126.CommentRepositoryImpl(gh<_i629.Commentremotedatasource>()),
     );
     gh.lazySingleton<_i885.AuthRepo>(
-      () => _i16.AuthRepositoryImpl(gh<_i1018.AuthDatasource>()),
+      () => _i16.AuthRepositoryImpl(
+        gh<_i1018.AuthDatasource>(),
+        gh<_i704.AuthLocalDatasource>(),
+      ),
     );
     gh.lazySingleton<_i887.AddCommentUsecase>(
       () => _i887.AddCommentUsecase(gh<_i25.CommentRepository>()),
     );
     gh.lazySingleton<_i242.GetCommentUsecase>(
       () => _i242.GetCommentUsecase(gh<_i25.CommentRepository>()),
+    );
+    gh.singleton<_i231.GetUserUsecase>(
+      () => _i231.GetUserUsecase(gh<_i885.AuthRepo>()),
     );
     gh.singleton<_i150.LoginUsecase>(
       () => _i150.LoginUsecase(gh<_i885.AuthRepo>()),
@@ -124,6 +141,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i887.AddCommentUsecase>(),
         gh<_i242.GetCommentUsecase>(),
       ),
+    );
+    gh.factory<_i847.SplashCubit>(
+      () => _i847.SplashCubit(gh<_i231.GetUserUsecase>()),
     );
     gh.factory<_i1027.TicketBloc>(
       () => _i1027.TicketBloc(

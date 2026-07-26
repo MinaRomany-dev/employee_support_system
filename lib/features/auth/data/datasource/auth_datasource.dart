@@ -2,7 +2,7 @@ import 'package:employee_support_system/features/auth/data/models/user_model.dar
 
 abstract class AuthDatasource {
   Future<UserModel> login(String email, String password);
-  Future<void> register(
+  Future<UserModel> register(
     String name,
     String role,
     String email,

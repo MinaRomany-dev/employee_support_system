@@ -19,7 +19,6 @@ class CommentRemoteDatasourceImpl implements Commentremotedatasource {
   }
 
   @override
-  // stream act as trigger
   Stream<List<CommentModel>> getComment(String ticketId) async* {
     await for (final _
         in client

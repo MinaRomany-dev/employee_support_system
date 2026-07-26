@@ -4,6 +4,7 @@ import 'package:employee_support_system/core/routes/generate_route.dart';
 import 'package:employee_support_system/core/routes/routes.dart';
 import 'package:employee_support_system/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:employee_support_system/features/employees/presentation/bloc/ticket_bloc.dart';
+import 'package:employee_support_system/features/splash/cubit/splash_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -36,6 +37,7 @@ class HelpDesk extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => getIt<AuthBloc>()),
+          BlocProvider(create: (context) => getIt<SplashCubit>()),
           BlocProvider(create: (context) => getIt<TicketBloc>()),
         ],
         child: MaterialApp(
