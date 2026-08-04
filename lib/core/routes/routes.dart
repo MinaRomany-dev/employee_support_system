@@ -1,4 +1,4 @@
-class Routes{
+class Routes {
   static const String login = '/login';
   static const String register = '/register';
   static const String home = '/home';
@@ -7,5 +7,4 @@ class Routes{
   static const String ticketscreen = '/ticketscreen';
   static const String splashScreen = '/SplashScreen';
   static const String ticketDetailsScreen = '/ticketDetailsScreen';
-
 }

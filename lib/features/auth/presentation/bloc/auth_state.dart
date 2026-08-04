@@ -42,13 +42,20 @@ final class RegisterSuccess extends AuthState {
 
 final class RegisterFailure extends AuthState {
   final String message;
- const RegisterFailure(this.message);
+  const RegisterFailure(this.message);
 
   @override
   List<Object?> get props => [message];
 }
 
 final class LogoutSuccess extends AuthState {
+  @override
+  List<Object?> get props => [];
+}
+
+final class LogoutFailure extends AuthState {
+  final String message;
+  const LogoutFailure(this.message);
   @override
   List<Object?> get props => [];
 }
@@ -65,4 +72,3 @@ final class SignInWithGoogleFailure extends AuthState {
   @override
   List<Object?> get props => [message];
 }
-

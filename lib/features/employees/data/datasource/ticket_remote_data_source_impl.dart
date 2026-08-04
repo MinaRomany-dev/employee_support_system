@@ -18,6 +18,24 @@ class TicketRemoteDataSourceImpl implements TicketRemoteDatasource {
   }
 
   @override
+  Future<List<TicketModel>> getAssignedTickets(String userId) async {
+    try {
+      final data = await client
+          .from('tickets')
+          .select('''
+      *,
+      creator:users!created_by(name),
+      assignee:users!assigned_to(name)
+    ''')
+          .eq('assigned_to', userId)
+          .order('created_at', ascending: false);
+      return data.map((m) => TicketModel.fromJson(m)).toList();
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  @override
   Future<void> createTicket(TicketModel ticket, File? image) async {
     try {
       String? attachmentUrl;
@@ -29,9 +47,15 @@ class TicketRemoteDataSourceImpl implements TicketRemoteDatasource {
             .from('attachments')
             .getPublicUrl(uniquepath);
       }
-      final json = ticket.toJson();
-      if (attachmentUrl != null) json['attachmentUrl'] = attachmentUrl;
-      await client.from('tickets').insert(json);
+      final response = ticket.toJson();
+      final newTicketId = response['id'];
+      if (attachmentUrl != null) response['attachmentUrl'] = attachmentUrl;
+      await client.from('tickets').insert(response);
+      await client.from('tickets_history').insert({
+        'ticket_id': newTicketId,
+        'old_status': ticket.status.name,
+        "changed_by": ticket.createdBy,
+      });
     } catch (e) {
       throw handleException(e);
     }
@@ -51,6 +75,30 @@ class TicketRemoteDataSourceImpl implements TicketRemoteDatasource {
           .order('created_at', ascending: false);
 
       return data.map((m) => TicketModel.fromJson(m)).toList();
+    } catch (e) {
+      throw handleException(e);
+    }
+  }
+
+  @override
+  Future<void> updateTicketStatus({
+    required String ticketId,
+    required TicketStatus oldStatus,
+    required TicketStatus newStatus,
+    required String changedBy,
+  }) async {
+    try {
+      await client
+          .from('tickets')
+          .update({'status': newStatus.name})
+          .eq('ticketId', ticketId);
+
+      await client.from('tickets_history').insert({
+        'ticket_id': ticketId,
+        'old_status': oldStatus.name,
+        'new_status': newStatus.name,
+        'changed_by': changedBy,
+      });
     } catch (e) {
       throw handleException(e);
     }

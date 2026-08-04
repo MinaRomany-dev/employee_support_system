@@ -109,7 +109,7 @@ class TicketModel {
       updatedAt: json['updated_at'] != null
           ? DateTime.parse(json['updated_at'])
           : null,
-      attachmentUrl: json['attachment_url'],
+      attachmentUrl: json['attachmentUrl'],
     );
   }
 
@@ -122,7 +122,7 @@ class TicketModel {
       'category': category.name,
       'created_by': createdBy,
       'assigned_to': assignedTo,
-      'attachment_url': attachmentUrl,
+      'attachmentUrl': attachmentUrl,
     };
   }
 }

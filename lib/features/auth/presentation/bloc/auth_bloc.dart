@@ -46,13 +46,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       );
     });
 
-    // on<LogoutEvent>((event, emit) async {
-    //   final result = await logoutUsecase();
-    //   result.fold(
-    //     (failure) => emit(LoginFailure(failure.message)),
-    //     (_) => emit(LogoutSuccess()),
-    //   );
-    // });
+    on<LogoutEvent>((event, emit) async {
+      final result = await logoutUsecase();
+      result.fold(
+        (failure) => emit(LogoutFailure(failure.message)),
+        (_) => emit(LogoutSuccess()),
+      );
+    });
 
     on<GoogleSignInEvent>((event, emit) async {
       emit(LoginLoading());

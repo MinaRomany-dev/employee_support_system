@@ -26,8 +26,6 @@ final class TicketCreatedSuccessfully extends TicketState {
   const TicketCreatedSuccessfully();
 }
 
-final class TicketUpdated extends TicketState {}
-
 final class TicketLoaded extends TicketState {
   final List<TicketEntity> tickets;
 
@@ -38,8 +36,34 @@ final class TicketLoaded extends TicketState {
 
 final class TicketLoading extends TicketState {}
 
-final class TicketLoadingError extends TicketState {
+final class TicketLoadingFailure extends TicketState {
   final String message;
 
-  const TicketLoadingError(this.message);
+  const TicketLoadingFailure(this.message);
+}
+
+final class AssignedTicketsLoaded extends TicketState {
+  final List<TicketEntity> tickets;
+
+  const AssignedTicketsLoaded(this.tickets);
+  @override
+  List<Object> get props => [tickets];
+}
+
+final class AssignedTicketsLoading extends TicketState {}
+
+final class AssignedTicketsFailure extends TicketState {
+  final String message;
+
+  const AssignedTicketsFailure(this.message);
+  @override
+  List<Object> get props => [message];
+}
+
+final class UpdateTicketStatusFailure extends TicketState {
+  final String message;
+
+  const UpdateTicketStatusFailure(this.message);
+  @override
+  List<Object> get props => [message];
 }

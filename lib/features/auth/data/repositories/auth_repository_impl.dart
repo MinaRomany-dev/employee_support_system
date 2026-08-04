@@ -22,6 +22,7 @@ class AuthRepositoryImpl extends AuthRepo {
   ) async {
     try {
       final user = await authDatasource.login(email, password);
+      await authLocalDatasource.cacheUser(user);
       return Right(user.toEntity());
     } on AppException catch (e) {
       return Left(mapExceptionToFailure(e));

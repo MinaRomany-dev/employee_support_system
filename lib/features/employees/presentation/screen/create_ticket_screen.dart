@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:employee_support_system/core/resources/styles_manager.dart';
 import 'package:employee_support_system/core/theme/color_manager.dart';
 import 'package:employee_support_system/core/utils/toast.dart';
@@ -71,22 +70,21 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
               type: ToastificationType.error,
             );
           }
-        }, 
+        },
         child: SingleChildScrollView(
           padding: EdgeInsets.all(5.w),
           child: Form(
             key: _formKey,
             child: Card(
-              //margin: EdgeInsets.all(50),
               color: ColorManager.surface,
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    /// title
+                    /// Title
                     CustomTextField(
-                      keyboardType: TextInputType.text,   
+                      keyboardType: TextInputType.text,
                       validator: Validators.tickettitle,
                       controller: _titleController,
                       label: 'Ticket Title',
@@ -96,7 +94,7 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
 
                     SizedBox(height: MediaQuery.of(context).size.height * 0.03),
 
-                    /// description
+                    /// Description
                     CustomTextField(
                       validator: Validators.ticketdescription,
                       controller: _descriptionController,
@@ -109,7 +107,7 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
 
                     SizedBox(height: heightscreen * 0.02),
 
-                    /// category
+                    /// Category
                     Text(
                       'Category',
                       style: TextStyle(
@@ -189,15 +187,15 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                       decoration: InputDecoration(
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: ColorManager.border),
-                          borderRadius: BorderRadius.all(Radius.circular(14.r)),
+                          borderRadius: BorderRadius.all(Radius.circular(16.r)),
                         ),
                         border: OutlineInputBorder(
                           borderSide: BorderSide(color: ColorManager.border),
-                          borderRadius: BorderRadius.all(Radius.circular(14.r)),
+                          borderRadius: BorderRadius.all(Radius.circular(16.r)),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: ColorManager.border),
-                          borderRadius: BorderRadius.all(Radius.circular(14.r)),
+                          borderRadius: BorderRadius.all(Radius.circular(16.r)),
                         ),
                         prefixIcon: Icon(
                           Icons.priority_high_outlined,
@@ -205,7 +203,6 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
                         ),
                       ),
                     ),
-
                     SizedBox(height: MediaQuery.of(context).size.height * 0.04),
 
                     /// attachments
@@ -235,7 +232,9 @@ class _CreateTicketScreenState extends State<CreateTicketScreen> {
 
                           if (iamgeUrl != null) {
                             context.read<TicketBloc>().add(
-                              CreateTicketEvent(ticket: entry, image: iamgeUrl),
+                              CreateTicketEvent(
+                                
+                                ticket: entry, image: iamgeUrl),
                             );
                           } else {
                             context.read<TicketBloc>().add(

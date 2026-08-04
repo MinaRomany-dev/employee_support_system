@@ -1,5 +1,5 @@
 import 'package:employee_support_system/core/error/exception_handler.dart';
-import 'package:employee_support_system/features/comment/data/datasource/CommentRemoteDatasource.dart';
+import 'package:employee_support_system/features/comment/data/datasource/comment_remote_datasource.dart';
 import 'package:employee_support_system/features/comment/data/models/comment_model.dart';
 import 'package:injectable/injectable.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';

@@ -13,27 +13,12 @@ final class CommentsLoading extends CommentState {}
 
 final class CommentsLoaded extends CommentState {
   final List<CommentEntity> comments;
-  final bool isSending;
 
-  const CommentsLoaded({
-    required this.comments,
-    this.isSending = false,
-  });
-
-  CommentsLoaded copyWith({
-    List<CommentEntity>? comments,
-    bool? isSending,
-  }) {
-    return CommentsLoaded(
-      comments: comments ?? this.comments,
-      isSending: isSending ?? this.isSending,
-    );
-  }
+  const CommentsLoaded({required this.comments});
 
   @override
-  List<Object> get props => [comments, isSending];
+  List<Object> get props => [comments];
 }
-
 
 final class CommentsError extends CommentState {
   final String message;

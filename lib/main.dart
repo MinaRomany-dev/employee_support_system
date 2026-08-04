@@ -1,6 +1,7 @@
 import 'package:employee_support_system/core/appobserver.dart';
 import 'package:employee_support_system/core/di/di.dart';
 import 'package:employee_support_system/core/routes/generate_route.dart';
+import 'package:employee_support_system/core/routes/navigator_key.dart';
 import 'package:employee_support_system/core/routes/routes.dart';
 import 'package:employee_support_system/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:employee_support_system/features/employees/presentation/bloc/ticket_bloc.dart';
@@ -9,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,12 +25,11 @@ void main() async {
 }
 
 class HelpDesk extends StatelessWidget {
-  SupabaseClient get client => Supabase.instance.client;
   const HelpDesk({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ScreenUtilInit(
+    return ScreenUtilInit( 
       designSize: const Size(360, 690),
       minTextAdapt: true,
       splitScreenMode: true,
@@ -41,6 +41,18 @@ class HelpDesk extends StatelessWidget {
           BlocProvider(create: (context) => getIt<TicketBloc>()),
         ],
         child: MaterialApp(
+          builder: (context, child) { 
+            return BlocListener<AuthBloc, AuthState>(
+              listener: (context, state) {
+                if (state is LogoutSuccess) {
+                  NavigatorKey.navigatorKey.currentState!
+                      .pushNamedAndRemoveUntil(Routes.login, (route) => false);
+                }
+              },
+              child: child!,
+            );
+          },
+          navigatorKey: NavigatorKey.navigatorKey,
           debugShowCheckedModeBanner: false,
           onGenerateRoute: generateRoute,
           initialRoute: Routes.splashScreen,

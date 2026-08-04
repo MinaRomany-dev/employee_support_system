@@ -2,7 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:employee_support_system/core/error/exception.dart';
 import 'package:employee_support_system/core/error/failure.dart';
 import 'package:employee_support_system/core/error/failure_handler.dart';
-import 'package:employee_support_system/features/comment/data/datasource/CommentRemoteDatasource.dart';
+import 'package:employee_support_system/features/comment/data/datasource/comment_remote_datasource.dart';
 import 'package:employee_support_system/features/comment/data/mappars/comment_mapper.dart';
 import 'package:employee_support_system/features/comment/domain/entities/comment_entity.dart';
 import 'package:employee_support_system/features/comment/domain/repo/comment_repo.dart';

@@ -24,7 +24,7 @@ class CommentBloc extends Bloc<CommentEvent, CommentState> {
         getCommentsUseCase(event.ticketId),
         onData: (result) => result.fold(
           (failure) => CommentsError(failure.message),
-          (comments) => CommentsLoaded(comments: comments, isSending: false),
+          (comments) => CommentsLoaded(comments: comments),
         ),
         onError: (e, _) => CommentsError(e.toString()),
       );

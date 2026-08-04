@@ -34,10 +34,10 @@ import 'package:employee_support_system/features/auth/domain/use_cases/sign_in_w
     as _i315;
 import 'package:employee_support_system/features/auth/presentation/bloc/auth_bloc.dart'
     as _i313;
-import 'package:employee_support_system/features/comment/data/datasource/Comment_remote_datasource_impl.dart'
-    as _i654;
-import 'package:employee_support_system/features/comment/data/datasource/CommentRemoteDatasource.dart'
-    as _i629;
+import 'package:employee_support_system/features/comment/data/datasource/comment_remote_datasource.dart'
+    as _i229;
+import 'package:employee_support_system/features/comment/data/datasource/comment_remote_datasource_impl.dart'
+    as _i961;
 import 'package:employee_support_system/features/comment/data/repositories/comment_repository_impl.dart'
     as _i126;
 import 'package:employee_support_system/features/comment/domain/repo/comment_repo.dart'
@@ -58,8 +58,12 @@ import 'package:employee_support_system/features/employees/domain/repo/tickets_r
     as _i77;
 import 'package:employee_support_system/features/employees/domain/usecases/create_ticket_usecase.dart'
     as _i695;
+import 'package:employee_support_system/features/employees/domain/usecases/get_assigned_ticktes_usecase.dart'
+    as _i115;
 import 'package:employee_support_system/features/employees/domain/usecases/get_user_tickets_usecase.dart'
     as _i578;
+import 'package:employee_support_system/features/employees/domain/usecases/update_ticket_status_usecase.dart'
+    as _i96;
 import 'package:employee_support_system/features/employees/presentation/bloc/ticket_bloc.dart'
     as _i1027;
 import 'package:employee_support_system/features/splash/cubit/splash_cubit.dart'
@@ -80,20 +84,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i704.AuthLocalDatasource>(
       () => _i1008.AuthLocalDatasourceimpl(),
     );
+    gh.lazySingleton<_i229.Commentremotedatasource>(
+      () => _i961.CommentRemoteDatasourceImpl(gh<_i454.SupabaseClient>()),
+    );
     gh.lazySingleton<_i887.TicketRemoteDatasource>(
       () => _i826.TicketRemoteDataSourceImpl(gh<_i454.SupabaseClient>()),
     );
     gh.lazySingleton<_i1018.AuthDatasource>(
       () => _i897.SupabaseAuth(gh<_i454.SupabaseClient>()),
     );
-    gh.lazySingleton<_i629.Commentremotedatasource>(
-      () => _i654.CommentRemoteDatasourceImpl(gh<_i454.SupabaseClient>()),
-    );
     gh.lazySingleton<_i77.TicketRepository>(
       () => _i231.TicketRepositoryImpl(gh<_i887.TicketRemoteDatasource>()),
     );
     gh.lazySingleton<_i25.CommentRepository>(
-      () => _i126.CommentRepositoryImpl(gh<_i629.Commentremotedatasource>()),
+      () => _i126.CommentRepositoryImpl(gh<_i229.Commentremotedatasource>()),
     );
     gh.lazySingleton<_i885.AuthRepo>(
       () => _i16.AuthRepositoryImpl(
@@ -128,6 +132,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i695.CreateTicketUseCase>(
       () => _i695.CreateTicketUseCase(gh<_i77.TicketRepository>()),
     );
+    gh.singleton<_i115.GetAssignedTicktesUsecase>(
+      () => _i115.GetAssignedTicktesUsecase(gh<_i77.TicketRepository>()),
+    );
+    gh.singleton<_i96.UpdateTicketStatusUsecase>(
+      () => _i96.UpdateTicketStatusUsecase(gh<_i77.TicketRepository>()),
+    );
     gh.factory<_i313.AuthBloc>(
       () => _i313.AuthBloc(
         gh<_i150.LoginUsecase>(),
@@ -147,8 +157,10 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i1027.TicketBloc>(
       () => _i1027.TicketBloc(
+        gh<_i96.UpdateTicketStatusUsecase>(),
         gh<_i695.CreateTicketUseCase>(),
         gh<_i578.GetUserTicketsUsecase>(),
+        gh<_i115.GetAssignedTicktesUsecase>(),
       ),
     );
     return this;
